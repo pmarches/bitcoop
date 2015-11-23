@@ -1,0 +1,10 @@
+import os
+
+env = Environment(ENV=os.environ)
+#env.JavaH(target = '.', source = ['bcoop.util.BitCoopFile'], JAVACLASSDIR = '../classes')
+
+env['ENV']['CPPPATH']='-I.'
+includeDir=['.', '/System/Library/Frameworks/JavaVM.framework/Headers/', env['ENV']['JAVA_HOME']+'/include', env['ENV']['JAVA_HOME']+'/include/linux']
+libs=['']
+libName = env.SharedLibrary('BitCoopFile', 'bcoop_util_BitCoopFile.cpp', CPPPATH=includeDir, LIBS=libs)
+libName = str(libName[0]);

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="WINDOWS-1252"?>
+<jardesc>
+<jar path="C:/Documents and Settings/pmarchesseault/workspace/bcoop_svn/bitcoop.jar"/>
+<options buildIfNeeded="true" compress="true" descriptionLocation="/bcoop_svn/bitcoop.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+<storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+<selectedProjects/>
+<manifest generateManifest="true" mainClassHandleIdentifier="=bcoop_svn/src&lt;bcoop.server{BCoopServer.java[BCoopServer" manifestLocation="/ATP/conf/Level1Downloader.mf" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+<sealing sealJar="false">
+<packagesToSeal/>
+<packagesToUnSeal/>
+</sealing>
+</manifest>
+<selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+<javaElement handleIdentifier="=bcoop_svn/src"/>
+</selectedElements>
+</jardesc>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<bcoop>
+	<systemProperties>
+	</systemProperties>
+	<baseDir>/tmp/bcoop</baseDir>
+	<admanpath>adman.dat</admanpath>
+	<numberTransactionHistory>3</numberTransactionHistory>
+	<clientPort>8665</clientPort>
+
+	<server>
+		<ourServerPort>9701</ourServerPort>
+	</server>
+	
+	<bootserver>
+		<ip>server.ele.etsmtl.ca</ip>
+		<port>9701</port>
+	</bootserver>
+	
+	<repository>
+		<globalLimit>150M</globalLimit>
+		<defaultLimitPerPeer>UNLIMITED</defaultLimitPerPeer>
+		
+		<allowedSpace peer="akasha">UNLIMITED</allowedSpace>
+		<allowedSpace peer="soniacvs">UNLIMITED</allowedSpace>
+	</repository>
+	
+	<backup>
+		<fileset name="tempDirectory">
+			<env name="soniaDbDump" value="/tmp/soniaDb.sql" />
+			<exec cmd="mysqldump db -uroot -PXXX >${soniaDbDump}" />
+			<!--include pattern="${soniaDbDump}" / -->
+			<include pattern="/tmp/.*" />
+		</fileset>
+	
+		<fileset name="testCaseFiles">
+			<include pattern="testData/filesToBackup/.*" />
+			<exclude pattern=".*/CVS/.*" />
+		</fileset>
+
+		<fileset name="barqFiles">
+			<include pattern="/barq/jail/projects/.*" />
+		</fileset>
+		<fileset name="project1">
+			<include pattern="/barq/jail/projects/unx1001/.*" />
+		</fileset>
+		<fileset name="medium">
+			<include pattern="/barq/jail/projects/unx100.*" />
+		</fileset>
+		<fileset name="big">
+			<include pattern="/barq/jail/projects/unx10.*" />
+		</fileset>
+
+		<fileset name="usrlib">
+			<include pattern="/usr/lib/.*" />
+		</fileset>
+		
+		<schedule name="daily dawn">
+			<year value="*" />
+			<month value="*" />
+			<weekday value="*" />
+			<day value="*" />
+			<hour value="04" />
+			<minute value="00" />
+		</schedule>
+		
+		<!-- job>
+			<schedule name="daily dawn" />
+			<fileset name="criticalFiles" />
+		</job>
+		<job>
+			<schedule name="bootime" />
+			<fileset name="sampleFiles" />
+		</job !-->
+	</backup>
+
+    <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+        <appender name="A1" class="org.apache.log4j.FileAppender">
+            <param name="File" value="A1.log"/>
+            <param name="Append" value="true"/>
+    
+            <layout class="org.apache.log4j.PatternLayout">
+                <param name="ConversionPattern" value="[%t]%-5p%c %m%n"/>
+            </layout>
+        </appender>
+    
+        <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+            <layout class="org.apache.log4j.PatternLayout">
+                <param name="ConversionPattern" value="%d{mm:ss}%c{1}%p %m%n"/>
+            </layout>
+        </appender>
+    
+        <category name="bcoop">
+            <priority value="DEBUG"/>
+            <appender-ref ref="STDOUT"/>
+        </category>
+    
+        <category name="bcoop.network.p2p">
+            <priority value="INFO"/>
+            <appender-ref ref="STDOUT"/>
+        </category>
+
+        <category name="org.hibernate">
+            <priority value="WARN"/>
+            <appender-ref ref="STDOUT"/>
+        </category>
+    
+        <root>
+            <priority value="WARN"/>
+            <appender-ref ref="STDOUT"/>
+        </root>
+            
+    </log4j:configuration>
+	
+</bcoop>

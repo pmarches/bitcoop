@@ -1,0 +1,101 @@
+<project name="barq" default="compile" basedir=".">
+	<description>Builds the java classes</description>
+	<property name="src" location="src" />
+	<property name="unitTestSrc" location="unittest" />
+	<property name="build" location="classes" />
+	<property name="lib" location="lib" />
+	<property name="dist" location="dist" />
+
+	<fileset dir="${lib}" id="project.jarlibs">
+		<include name="**/*.jar" />
+	</fileset>
+
+	<path id="project.classpath">
+		<fileset refid="project.jarlibs" />
+		<pathelement path="${build}" />
+	</path>
+
+	<pathconvert pathsep=":" property="classpath" refid="project.classpath"/>
+	<echo message="${classpath}" />
+	
+	<target name="init">
+		<mkdir dir="${build}" />
+	</target>
+
+	<target name="clean" description="clean up">
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+	</target>
+
+	<target name="compile" depends="init" description="compile the source ">
+		<javac debug="true" srcdir="${src}" destdir="${build}">
+		    <classpath refid="project.classpath" />
+		</javac>
+		<copy todir="${build}" overwrite="true">
+		    <fileset dir="${src}">
+				<include name="*.properties"/>
+		    </fileset>
+		</copy>
+	</target>
+	
+	<target name="compile-test" depends="compile" description="Compiles the unit tests">
+		<javac debug="true" srcdir="${unitTestSrc}" destdir="${build}">
+			<classpath refid="project.classpath" />
+		</javac>
+	</target>
+	
+    <!-- taskdef name="junit" classpathref="project.classpath" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"></taskdef !-->
+	<target name="test" depends="compile-test" description="Runs the unit tests">
+	    <junit printsummary="yes" fork="no" haltonfailure="yes">
+			<classpath refid="project.classpath" />
+		    	<formatter type="plain"/>
+			<test name="bcoop.AllTests" />
+	    </junit>
+	</target>
+	
+	<target name="cobertura" depends="compile-test" description="Generate the test coverage report">
+		<property name="cobertura.base_dir" value="doc/cobertura"/>
+		<property name="cobertura.instrumented_dir" value="${cobertura.base_dir}/instrumented"/>
+		<property name="cobertura.datafile" value="${cobertura.base_dir}/cobertura.ser"/>
+		<property name="cobertura.report_dir" value="${cobertura.base_dir}/report"/>
+
+		<delete dir="${cobertura.base_dir}"/>
+		<mkdir dir="${cobertura.base_dir}"/>
+		
+		<taskdef classpathref="project.classpath" resource="tasks.properties"/>
+		<cobertura-instrument todir="${cobertura.instrumented_dir}" datafile="${cobertura.datafile}">
+		    <fileset dir="classes">
+		        <include name="**/*.class"/>
+		        <exclude name="**/*Test.class"/>
+		    </fileset>
+		</cobertura-instrument>
+
+		<junit printsummary="yes" fork="yes" haltonfailure="yes">
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.datafile}" />
+			<classpath location="${cobertura.instrumented_dir}"/>
+			<classpath refid="project.classpath" />
+			<formatter type="xml"/>
+			<test name="bcoop.AllTests" />
+	    </junit>
+
+		<cobertura-report srcdir="${src}" destdir="${cobertura.report_dir}" datafile="${cobertura.datafile}"/>
+		<delete includeemptydirs="yes">
+			<fileset dir="${cobertura.instrumented_dir}" />
+			<fileset file="${cobertura.datafile}" />
+		</delete>
+	</target>
+
+	<target name="server">
+		<property environment="env"/>
+		<echo message="${env.HOSTNAME}"/>
+		<!--java classpathref="project.classpath" classname="bcoop.server.BCoopServer">
+			<arg value="bcoop.server.ourPeerId=%{env.HOSTNAME}"/>
+		</java !-->
+	</target>
+
+			<target name="shell">
+       <java classname="bcoop.client.shell.Shell" classpathref="project.classpath">
+         <arg value="soniacvs.ele.etsmtl.ca"/>
+       </java>
+	</target>
+</project>

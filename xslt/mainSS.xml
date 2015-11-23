@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+    <xsl:template match="/">
+        <html>
+            <body>
+                <xsl:apply-templates/>
+            </body>
+        </html>
+    </xsl:template>
+
+    <xsl:template match="backupConfig">
+        <xsl:apply-templates select="jobs"/>
+    </xsl:template>
+    
+    <xsl:template match="jobs">
+                <h2>Defined Jobs</h2>
+                <table border="1">
+                    <tr bgcolor="#9acd32">
+                        <th align="left">Schedule</th>
+                        <th align="left">Data</th>
+                    </tr>
+                    <xsl:for-each select="job">
+                        <tr>
+                            <td><xsl:value-of select="schedule/@ref"/></td>
+                            <td><xsl:value-of select="data/@ref" /></td>
+                        </tr>
+                    </xsl:for-each>
+                </table>
+    </xsl:template>
+</xsl:stylesheet>

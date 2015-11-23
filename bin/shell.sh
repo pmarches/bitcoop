@@ -1,0 +1,1 @@
+java -cp classes:lib/log4j-1.2.9.jar:lib/bcprov-jdk14.jar:lib/jal-0.4.jar:lib/javax.servlet.jar:lib/jaxen-core.jar:lib/jaxen-jdom.jar:lib/jdom.jar:lib/jxtaext.jar:lib/jxta.jar:lib/log4j.jar:lib/org.mortbay.jetty.jar:lib/saxpath.jar bcoop.client.shell.Shell $*

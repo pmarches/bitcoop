@@ -1,0 +1,73 @@
+Problem statement:
+- No cheap backup solution for me. Even tarsnap runs into 150$/year!
+- I can live with galicer speeds (wait 1 or 2 days before my restore is ready)
+- Need crossplatform support
+- Tarsnap looks nice, but no QR code support? :-(
+- Uses S3 storage (0.25$/GB/Month) -> 50GB==150$/Year
+
+
+What I like about tarsnap:
++ Client side encryption
++ Can pay with bitcoin
++ No file duplication
++ Content is separated from meta-data (Changing file perm or moving a file around does not require a re-upload)
+- Single Threaded
+
+Solution:
+- Use glacier storage (0.01$/GB/Month) -> 50GB==6$/Year
+- Multi-platform ->Java implementation, with native drivers for fast IO
+
+Features:
+- Possibility to move from glacier to P2PBlob
+- Hash content & reference count to make fast uploads
+- Git-like hash groups
+- 
+
+---------------- OLD Features, some of them implemented by bazarro ---------
+
+Release 0.2 (First public release)
+-Connects to other hosts
+-Sends blocks to random host
+-Can retrieve blocks from hosts
+-Can create bootfile
+-Can restore system from a bootfile
+-Be able to send multiple files over one connection to server.
+-Intellignet backup execution, connects and sends the blocks to a specific server in one shot
+-Support backup rotation if space allows
+-Intelligent block distribution among N peers
+-Be able to backup links as links.
+-Be able to backup empty files and empty directories.
+-expert CLI
+
+Release 0.4 (Usable on a server farm)
+-Add discovery command to client
+-CLI help
+-Crypto pubkey
+-Client authentication (private key password)
+-Treat special files (block and character files) as special files.
+-Optimized blockid creation
+-Optimize tracker file saving (HSQL)
+-Language independant data exchange
+-Wait for available space when no more space on a certain host (Allow slow first timebackups)
+-Add status and return codes, be able to check on progress..
+-Send a challenge when we assume the remote peers has previous version of file
+-Send notifications to peers when we discard their blocks
+
+Release 0.6 (Usable on server farm, with somewhat trusted peers)
+-diff transactions
+-GUI linked for monitoring and control
+-Peers can be in more than one group
+-Use quartz
+
+Release 1.0 (Usable with untrusted peers)
+-Separate gui, web facade...
+-Challenge and response to detect faking hosts
+-Reputation system
+-Have a suspects & banned list, plus a inquisitor thread that challenges random peers in the peer list
+
+Release 1.2 (Usable by power user)
+-Bandwidth throttle
+-Multi-threaded backup upload to different peers.
+-Multi threaded restoration among all the peers. (N thread for N peers)
+-User can get money for hosting backup files
+-

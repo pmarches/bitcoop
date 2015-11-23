@@ -1,0 +1,18 @@
+<bcoop>
+	<server>
+		<ourPeerId>bleue</ourPeerId>
+	</server>
+	
+	<repository>
+		<globalLimit>0M</globalLimit>
+		<defaultLimitPerPeer>0</defaultLimitPerPeer>
+	</repository>
+	
+	<backup>
+		<fileset name="testCaseFiles">
+			<include pattern="testData/filesToBackup/.*" />
+			<exclude pattern=".*/CVS/.*" />
+		</fileset>
+	</backup>
+	
+</bcoop>

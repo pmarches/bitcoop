@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="mainSS.xml"?>
+
+<bcoop xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="bcoop.xsd">
+    <backupConfig>
+        <data name="criticalFiles">
+            <env var="soniaDbDump" value="/tmp/soniaDb.sql" />
+            <exec cmd="mysqldump sonia -usonia -Pdauphin >${soniaDbDump}" />
+            <!--include pattern="${soniaDbDump}" / -->
+            <include pattern="/tmp/.*" />
+        </data>
+        
+        <data name="sampleFiles">
+            <include pattern="/home/pmarches/workspace/bcoop/testData/filesToBackup/.*" />
+        </data>
+        
+        <schedule name="daily dawn">
+            <year value="*"/>
+            <month value="*"/>
+            <weekday value="*"/>
+            <day value="*"/>
+            <hour value="04"/>
+            <minute value="00"/>
+        </schedule>
+        
+        <jobs>
+            <job>
+                <schedule ref="daily dawn" />
+                <data ref="criticalFiles" />
+            </job>
+            <job>
+                <schedule ref="bootime" />
+                <data ref="sampleFiles" />
+            </job>
+        </jobs>
+        
+    </backupConfig>
+
+</bcoop>

@@ -1,0 +1,49 @@
+>connect 127.0.0.1
+connected to 127.0.0.1
+>show fileset
+importantStuff
+staticStuff
+oldStuff
+>backup importantStuff
+Fileset importantStuff will be backed up on 12-dec-2005 13:00
+>backup staticStuff at 12-05-2005 14:30
+Fileset staticStuff will be backed up on 12-05-2005 14:30
+>
+>show peer
+Peers statistics:
+Peername		We host		We sent		%Used
+peer1		100 Meg		25 Meg		25%
+peer2		1.25 Gig		1.75Gig		110%
+>show schedule
+Name		Date		Next
+
+>show repository
+>show transaction
+DataName	Version	Schedule		Date					Size
+data1	2A31E1	Afternoon	11-03-2005 13:45		202 Meg
+data1	232B87	Afternoon	12-03-2005 13:44		201 Meg
+data1	27C621	Morning		12-03-2005 06:00		201 Meg
+data2	1B2561	Nightly		01-12-2004 12:01		1023 Meg
+>diff transaction 27C621 232B87
+/toto/tmp/blah/file1.txt
+Transact: 27C621									232B87
+Size    : 103 Kilobytes							104 Kilobytes
+Mod date: 20 november 2005						21 November 2005
+
+/toto/sacxsa/ascasx.txt
+Transact: 27C621									232B87
+Size    : 103 Kilobytes							10.4 Kilobytes
+Mod date: 20 november 2005						21 November 2005
+
+>restore transaction 232B87 to /tmp
+>show restore
+>
+>show file /myFolder/myFile.txt
+last backup: 12-03-2005 13:44
+in transaction: transaction1
+sent to peers:
+peer1
+peer2
+>drop transaction 2A31E1
+>help
+>exit
